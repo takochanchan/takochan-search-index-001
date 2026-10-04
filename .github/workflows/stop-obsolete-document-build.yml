@@ -15,17 +15,17 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           node --input-type=module <<'JS'
-          const base = "https://api.github.com/repos/" + process.env.GH_REPO + "/actions/runs/37206913820";
+          const base = "https://api.github.com/repos/" + process.env.GH_REPO + "/actions/runs/37207776488";
           const headers = { Authorization: "Bearer " + process.env.GH_TOKEN, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
           const response = await fetch(base, { headers });
           if (!response.ok) throw new Error("Could not verify superseded run: " + response.status);
           const run = await response.json();
-          if (run.head_sha !== "5c76afc896bdfd65d10be09cc043252f132ebc91" || run.path !== ".github/workflows/pages.yml") throw new Error("Unexpected run; cancellation refused");
+          if (run.head_sha !== "006063e151bfded80e787999164367f3759ffb2c" || run.path !== ".github/workflows/pages.yml") throw new Error("Unexpected run; cancellation refused");
           if (run.status === "completed") {
             console.log("Superseded run already completed.");
           } else {
             const cancelled = await fetch(base + "/cancel", { method: "POST", headers });
             if (!cancelled.ok && cancelled.status !== 409) throw new Error("Could not cancel obsolete run: " + cancelled.status);
-            console.log("Cancelled only superseded run 37206913820; the corrected run remains queued.");
+            console.log("Cancelled only superseded run 37207776488; the corrected run remains queued.");
           }
           JS
