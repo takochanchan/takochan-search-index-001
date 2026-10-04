@@ -86,6 +86,8 @@ jobs:
         working-directory: archive
         env:
           SEARCH_SHARD: ${{ steps.source.outputs.shard }}
+          # OCR already runs two page workers; limit each recognizer to one thread.
+          OMP_THREAD_LIMIT: "1"
         run: npm run build:search
 
       - name: Save final assets and OCR cache
